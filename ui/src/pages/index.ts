@@ -5,6 +5,6 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: () => MainPage
+    component: MainPage
   },
 ]
