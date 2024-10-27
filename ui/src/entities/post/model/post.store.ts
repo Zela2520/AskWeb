@@ -1,29 +1,77 @@
-import type { PostDto } from './index.types'
-import { defineStore } from 'pinia'
-import { getPostsList } from '../api'
-import { ref } from 'vue'
-import { mapPost } from '../lib/mapPost'
+import type { PostDto } from './index.types';
+import { defineStore } from 'pinia';
+import { getPostsList } from '../api';
+import { ref } from 'vue';
+import { mapPost } from '../lib/mapPost';
+import { useGetLikePanel } from '@/features/useGetLikePanel';
 
 export const usePostsStore = defineStore('posts', () => {
-  const isPostLoading = ref<boolean>(false)
-  const postsList = ref<PostDto[]>([])
+  const isPostLoading = ref<boolean>(false);
+  const selectPost = ref<PostDto>();
+  const postsList = ref<PostDto[]>([]);
 
   async function getPostsListAsync(params: any, limit: number = 5) {
-    isPostLoading.value = true
+    isPostLoading.value = true;
     try {
-      const { data } = await getPostsList(params)
-      postsList.value = data.posts?.slice(0, limit).map((x) => mapPost(x)) || []
-    } catch(e) {
-      console.error(e)
-      postsList.value = []
+      const { data } = await getPostsList(params);
+      postsList.value = data.posts?.slice(0, limit).map((x) => {
+        const { isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike } = useGetLikePanel({ initialLikes: x.reactions.likes, initialDislikes: x.reactions.dislikes });
+        return { ...mapPost(x), isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike };
+      }) || [];
+    } catch (e) {
+      console.error(e);
+      postsList.value = [];
     } finally {
-      isPostLoading.value = false
+      isPostLoading.value = false;
     }
   }
 
+  const handleLikeClick = (id: number) => {
+    postsList.value.forEach((post) => {
+      if (post.id === id) {
+        post.toggleLike();
+      }
+    });
+  };
+
+  const handleDislikeClick = (id: number) => {
+    postsList.value.forEach((post) => {
+      if (post.id === id) {
+        post.toggleDislike();
+      }
+    });
+  };
+
+  const getLikesById = (id: number) => {
+    const likedPost = postsList.value?.find((x) => x.id === id);
+    return likedPost?.likes;
+  };
+
+  const getDislikesById = (id: number) => {
+    const dislikedPost = postsList.value?.find((x) => x.id === id);
+    return dislikedPost?.dislikes;
+  };
+
+  const getIsLikeById = (id: number) => {
+    const likedPost = postsList.value?.find((x) => x.id === id);
+    return likedPost?.isLiked;
+  };
+
+  const getIsDislikeById = (id: number) => {
+    const dislikedPost = postsList.value?.find((x) => x.id === id);
+    return dislikedPost?.isDisliked;
+  };
+
   return {
     getPostsListAsync,
+    handleLikeClick,
+    handleDislikeClick,
+    getLikesById,
+    getDislikesById,
+    getIsLikeById,
+    getIsDislikeById,
     postsList,
-    isPostLoading
-  }
-})
+    selectPost,
+    isPostLoading,
+  };
+});

@@ -1,1 +1,1 @@
-export { useGetLikePanel } from './useGetLikePanel';
+export { useGetLikePanel } from '../../../features/useGetLikePanel';

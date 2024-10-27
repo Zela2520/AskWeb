@@ -9,4 +9,8 @@ export type PostDto = {
     dislikes: number;
     views: number;
     userId: number;
+    isLiked: boolean
+    isDisliked: boolean
+    toggleLike: () => void
+    toggleDislike: () => void
 }

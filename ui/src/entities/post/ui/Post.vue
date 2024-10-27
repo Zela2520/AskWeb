@@ -9,7 +9,7 @@
                 <button :class="[
                     'flex gap-1.5 items-center self-stretch py-2 pr-2 pl-3 my-auto',
                     isLiked ? 'bg-red-500 text-white' : 'bg-black bg-opacity-0 text-black'
-                ]" @click="toggleLike" aria-label="Like post">
+                ]" @click="handleLikeClick" aria-label="Like post">
                     <span class="flex gap-1 items-center self-stretch my-auto tracking-normal">
                         <img :src="likeIcon" :alt="isLiked ? 'Unlike post' : 'Like post'"
                             class="object-contain shrink-0 self-stretch my-auto aspect-[1.18] w-[13px]" />
@@ -23,7 +23,7 @@
                 <button :class="[
                     'flex gap-1.5 items-center self-stretch py-2 pr-2 pl-3 my-auto',
                     isDisliked ? 'bg-black text-white' : 'bg-black bg-opacity-0 text-black'
-                ]" @click="toggleDislike" aria-label="Dislike post">
+                ]" @click="handleDislikeClick" aria-label="Dislike post">
                     <span class="flex gap-1 items-center self-stretch my-auto tracking-normal">
                         <img :src="dislikeIcon" :alt="isDisliked ? 'Remove dislike' : 'Dislike post'"
                             class="object-contain shrink-0 self-stretch my-auto aspect-[1.18] w-[13px]" />
@@ -32,6 +32,12 @@
                     <span
                         :class="['self-stretch my-auto tracking-tighter text-right', !isDisliked && 'opacity-30']">
                         {{ dislikes }}
+                    </span>
+                </button>
+                <button v-if="canOpenPost" @click="toggleComments" class="flex gap-1 items-center text-orange-500 w-[108px]">
+                    <span class="flex flex-col self-stretch my-auto w-[108px]">
+                        <span>Open comments</span>
+                        <span class="mt-1 w-full border border-solid border-orange-500 border-opacity-30 min-h-[1px]"></span>
                     </span>
                 </button>
             </div>
@@ -54,20 +60,41 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, computed } from 'vue';
+import { defineProps, withDefaults, computed, ref } from 'vue';
 import { PostProps } from './index.types';
 import { useGetLikePanel } from '../hooks'
+import { useRouter, useRoute } from 'vue-router';
+import { usePostsStore } from '../model/post.store'
+import { storeToRefs } from 'pinia';
 
-const props = withDefaults(defineProps<PostProps>(), {});
+const props = withDefaults(defineProps<PostProps>(), {
+    canOpenPost: true
+});
+const postsStore = usePostsStore();
+const router = useRouter()
+const route = useRoute();
 
-const { isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike } = useGetLikePanel({ initialLikes: props.likes, initialDislikes: props.dislikes })
-
+const likes = computed(() => postsStore.getLikesById(props.id))
+const dislikes = computed(() => postsStore.getDislikesById(props.id))
+const isLiked = computed(() => postsStore.getIsLikeById(props.id))
+const isDisliked = computed(() => postsStore.getIsDislikeById(props.id))
 const likeIcon = computed(() =>
     isLiked.value ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/255d07f3a96cc50a3d0320ee77bcdfe888ceb7de6d7625da5ece89189c6247bd?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/dbac6499cbc423215857579d7a218750c1b14836cf105e3921666b6e114070c0?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66'
 )
-
 const dislikeIcon = computed(() =>
     isDisliked.value ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/0ab98e8a50e9c3910aadd3c28f9a17a189f41bab03cd5d4e8ad5697b1c51cf0b?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/12673e70352a51d7fd75cd1e2cbd8a1ae2414306024c35eafcc09abcc06c8de8?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66'
 )
+
+const toggleComments = () => {
+  router.push(`${props.id}/comment`);
+}
+
+const handleLikeClick = () => {
+    postsStore.handleLikeClick(props.id)
+}
+
+const handleDislikeClick = () => {
+    postsStore.handleDislikeClick(props.id)
+}
 
 </script>

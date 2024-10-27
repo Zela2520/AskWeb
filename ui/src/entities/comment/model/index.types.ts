@@ -8,4 +8,5 @@ export type CommentDto = {
     userId: number;
     username: string;
     fullName: string;
+    isDeleted?: boolean
 }
