@@ -6,20 +6,68 @@
         </header>
         <footer class="flex flex-wrap gap-2 items-center self-start mt-6 text-sm max-md:max-w-full">
             <div class="flex overflow-hidden gap-px items-center self-stretch my-auto whitespace-nowrap rounded-[30px]">
-                <p><strong>Likes:</strong> {{ likes }}</p>
-                <p><strong>Trash:</strong> {{ dislikes }}</p>
+                <button :class="[
+                    'flex gap-1.5 items-center self-stretch py-2 pr-2 pl-3 my-auto',
+                    isLiked ? 'bg-red-500 text-white' : 'bg-black bg-opacity-0 text-black'
+                ]" @click="toggleLike" aria-label="Like post">
+                    <span class="flex gap-1 items-center self-stretch my-auto tracking-normal">
+                        <img :src="likeIcon" :alt="isLiked ? 'Unlike post' : 'Like post'"
+                            class="object-contain shrink-0 self-stretch my-auto aspect-[1.18] w-[13px]" />
+                        <span>Like</span>
+                    </span>
+                    <span :class="['self-stretch my-auto tracking-tighter text-right', !isLiked && 'opacity-30']">
+                        {{ likes }}
+                    </span>
+                </button>
+
+                <button :class="[
+                    'flex gap-1.5 items-center self-stretch py-2 pr-2 pl-3 my-auto',
+                    isDisliked ? 'bg-black text-white' : 'bg-black bg-opacity-0 text-black'
+                ]" @click="toggleDislike" aria-label="Dislike post">
+                    <span class="flex gap-1 items-center self-stretch my-auto tracking-normal">
+                        <img :src="dislikeIcon" :alt="isDisliked ? 'Remove dislike' : 'Dislike post'"
+                            class="object-contain shrink-0 self-stretch my-auto aspect-[1.18] w-[13px]" />
+                        <span>Trash</span>
+                    </span>
+                    <span
+                        :class="['self-stretch my-auto tracking-tighter text-right', !isDisliked && 'opacity-30']">
+                        {{ dislikes }}
+                    </span>
+                </button>
             </div>
-            <div class="flex gap-2 items-end self-stretch my-auto tracking-normal min-w-[240px]">
-                <p><strong>Tags:</strong> {{ tags.join(', ') }}</p>
-                <p><strong>Views:</strong> {{ views }}</p>
+            <div class="flex gap-2 items-center self-stretch my-auto tracking-normal min-w-[240px]">
+                <time datetime="2024-01-17" class="flex gap-px items-center whitespace-nowrap min-h-[17px] text-black text-opacity-20">
+                    Today
+                </time>
+                <div class="flex gap-1 items-start text-black whitespace-nowrap">
+                    <div class="flex items-center">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/439047a892b88936a81a6798c38680f2764e703d7207ea4c5aa006ebbbb597cd?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66" alt="" class="object-contain shrink-0 self-stretch my-auto w-2.5 aspect-[0.56] fill-zinc-500 fill-opacity-10" />
+                        <span class="gap-2.5 self-stretch py-1 pr-1 my-auto rounded-none bg-zinc-500 bg-opacity-10">
+                            history
+                        </span>
+                    </div>
+                    <span v-for="(tag, index) in tags" :key="index" class="self-stretch p-1 rounded bg-zinc-500 bg-opacity-10">{{ tag }}</span>
+                </div>
             </div>
         </footer>
     </article>
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue';
+import { defineProps, withDefaults, computed } from 'vue';
 import { PostProps } from './index.types';
+import { useGetLikePanel } from '../hooks'
 
 const props = withDefaults(defineProps<PostProps>(), {});
+
+const { isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike } = useGetLikePanel({ initialLikes: props.likes, initialDislikes: props.dislikes })
+
+const likeIcon = computed(() =>
+    isLiked.value ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/255d07f3a96cc50a3d0320ee77bcdfe888ceb7de6d7625da5ece89189c6247bd?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/dbac6499cbc423215857579d7a218750c1b14836cf105e3921666b6e114070c0?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66'
+)
+
+const dislikeIcon = computed(() =>
+    isDisliked.value ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/0ab98e8a50e9c3910aadd3c28f9a17a189f41bab03cd5d4e8ad5697b1c51cf0b?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/12673e70352a51d7fd75cd1e2cbd8a1ae2414306024c35eafcc09abcc06c8de8?placeholderIfAbsent=true&apiKey=d8cff008ac484424ba1c44f5e914fb66'
+)
+
 </script>

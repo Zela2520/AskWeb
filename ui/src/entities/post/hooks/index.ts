@@ -1,0 +1,1 @@
+export { useGetLikePanel } from './useGetLikePanel';

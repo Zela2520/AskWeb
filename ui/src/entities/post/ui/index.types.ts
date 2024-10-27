@@ -6,4 +6,4 @@ export type PostProps = {
     dislikes: number;
     tags: string[];
     views: number;
-}
+};
