@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Post } from '@/entities/post'
+import { PostsList } from '@/widgets/PostsList';
+import { Header } from '@/widgets/Header';
 </script>
 <template>
-  <h1>MainPage</h1>
-  <Post />
+  <Header />
+  <PostsList />
 </template>

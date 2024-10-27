@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults, computed } from 'vue';
+import { defineProps, withDefaults } from 'vue';
 import { IconProps, IconColor } from '../index.types';
 
 const props = withDefaults(defineProps<IconProps>(), {

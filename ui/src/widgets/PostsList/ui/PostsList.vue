@@ -1,22 +1,26 @@
 <template>
-    <div>
-        <h1 class="text-2xl font-bold mb-4">Posts</h1>
+    <section class="flex flex-col mt-2.5 max-w-full w-[676px] gap-y-8">
         <div v-if="isPostLoading">
             <Spinner />
         </div>
-        <ul v-else>
-            <li v-for="post in postsList" :key="post.id">
-                <Post :post="post" />
-            </li>
-        </ul>
-    </div>
+        <Post
+          v-for="post in postsList"
+          :id="post.id"
+          :title="post.title"
+          :body="post.body"
+          :likes="post.likes"
+          :dislikes="post.dislikes"
+          :tags="post.tags"
+          :views="post.views"
+        />
+    </section>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 import { useGetPosts } from '@/features/useGetPosts';
 import { Post } from '@/entities/post';
-import Spinner from '@/shared/ui/Spinner';
+import { Spinner } from '@/shared/ui/Spinner';
 
 export default defineComponent({
     components: {

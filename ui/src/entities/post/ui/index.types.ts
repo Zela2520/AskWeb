@@ -3,6 +3,7 @@ export type PostProps = {
     title: string;
     body: string;
     likes: number;
+    dislikes: number;
     tags: string[];
     views: number;
 }

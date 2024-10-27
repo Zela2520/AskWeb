@@ -8,11 +8,11 @@ export const usePostsStore = defineStore('posts', () => {
   const isPostLoading = ref<boolean>(false)
   const postsList = ref<PostDto[]>([])
 
-  async function getPostsListAsync(params: any) {
+  async function getPostsListAsync(params: any, limit: number = 5) {
     isPostLoading.value = true
     try {
       const { data } = await getPostsList(params)
-      postsList.value = data.posts?.map((x) => mapPost(x)) || []
+      postsList.value = data.posts?.slice(0, limit).map((x) => mapPost(x)) || []
     } catch(e) {
       console.error(e)
       postsList.value = []

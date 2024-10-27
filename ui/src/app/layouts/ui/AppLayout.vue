@@ -2,9 +2,9 @@
 <template>
     <div class="flex h-screen">
         <div class="min-w-full flex flex-col items-center">
-            <div class="min-w-0 w-3/5">
+            <main class="flex flex-col items-center px-8 pt-4 pb-16 bg-white max-md:px-5">
                 <slot></slot>
-            </div>
+            </main>
         </div>
     </div>
 </template>
