@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { PostsList } from '@/widgets/PostsList';
+import { Header } from '@/widgets/Header';
 </script>
 <template>
-  <h1>MainPage</h1>
+  <Header />
+  <PostsList />
 </template>
