@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { useGetPosts } from '@/features/useGetPosts';
 import { Post } from '@/entities/post';
 import { Spinner } from '@/shared/ui/Spinner';
@@ -30,7 +30,9 @@ export default defineComponent({
     setup() {
         const { postsList, getPosts, isPostLoading } = useGetPosts();
 
-        onMounted(getPosts);
+        onMounted(() => {
+            if (!postsList.length) getPosts()
+        });
 
         return {
             postsList,

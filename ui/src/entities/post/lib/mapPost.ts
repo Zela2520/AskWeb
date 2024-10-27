@@ -11,5 +11,7 @@ export const mapPost = (post: Post): PostDto =>{
         dislikes: post.reactions.dislikes,
         views: post.views,
         userId: post.userId,
+        isLiked: false,
+        isDisliked: false,
     }
 }
