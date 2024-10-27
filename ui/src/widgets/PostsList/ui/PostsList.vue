@@ -8,7 +8,7 @@
           :id="post.id"
           :title="post.title"
           :body="post.body"
-          :likes="post.likes"
+          :likes="post.likes" 
           :dislikes="post.dislikes"
           :tags="post.tags"
           :views="post.views"
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, computed } from 'vue';
 import { useGetPosts } from '@/features/useGetPosts';
 import { Post } from '@/entities/post';
 import { Spinner } from '@/shared/ui/Spinner';
@@ -39,3 +39,6 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+</style>

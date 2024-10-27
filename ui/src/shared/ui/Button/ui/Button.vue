@@ -1,10 +1,74 @@
+<script setup lang="ts">
+import { generateUniqueID } from '@/shared/lib';
+import { type ButtonProps } from './index.types'
+import { ref } from 'vue'
+
+const buttonId = ref(generateUniqueID('button'))
+withDefaults(defineProps<Partial<ButtonProps>>(), {
+  variant: 'primary',
+  to: '#'
+})
+defineEmits(['click'])
+</script>
 <template>
-    <svg class="animate-spin -ml-1 mr-3 h-12 w-12 text-white" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      />
-    </svg>
+  <a
+    v-if="link"
+    :href="to"
+    class="flex max-w-max items-center justify-center transition-colors duration-200"
+    :class="[
+      icon && text ? 'gap-4' : '',
+      size === 'small' ? 'p-2 text-xs' : '',
+      size === 'medium' ? 'px-8 py-4 text-base' : '',
+      size === 'large' ? ' px-32 h-16 text-xl' : '',
+      variant === 'primary' ? 'group btn-primary' : '',
+      variant === 'secondary' ? 'group btn-secondary' : '',
+      variant === 'custom' ? '' : ''
+    ]"
+  >
+    <component
+      :class="[
+        variant === 'primary' ? ' text-white group-hover:text-primary-1' : '',
+        variant === 'secondary' ? ' text-primary-1 group-hover:text-white' : '',
+        size === 'small' ? ' w-4 h-4' : ''
+      ]"
+      :is="icon"
+    ></component>
+    <span
+      class="whitespace-nowrap"
+      :class="[variant === 'primary' ? 'group-hover:text-slate-950' : '']"
+      >{{ text }}</span
+    >
+    <p v-if="discount">{{ discount }}</p>
+  </a>
+  <button
+    v-else
+    :id="buttonId"
+    :disabled="disabled"
+    @click="method"
+    class="flex items-center justify-center transition-colors duration-200"
+    :class="[
+      icon && text ? 'gap-4' : '',
+      size === 'small' ? 'p-2 text-xs' : '',
+      size === 'medium' ? 'px-8 py-4 text-base' : '',
+      size === 'large' ? ' px-32 h-16 text-xl' : '',
+      variant === 'primary' ? 'group btn-primary' : '',
+      variant === 'secondary' ? 'group btn-secondary' : '',
+      variant === 'custom' ? '' : ''
+    ]"
+  >
+    <component
+      :class="[
+        variant === 'primary' ? ' text-white group-hover:text-primary-1' : '',
+        variant === 'secondary' ? ' text-primary-1 group-hover:text-white' : '',
+        size === 'small' ? ' w-4 h-4' : ''
+      ]"
+      :is="icon"
+    ></component>
+    <span
+      class="whitespace-nowrap"
+      :class="[variant === 'primary' ? 'group-hover:text-slate-950' : '']"
+      >{{ text }}</span
+    >
+    <p v-if="discount">{{ discount }}</p>
+  </button>
 </template>
