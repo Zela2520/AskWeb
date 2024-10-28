@@ -29,4 +29,4 @@
 - запуск проекта произойдет на: http://localhost:3000
 
 ## Deploy (только desktop)
-https://dazzling-malabi-c162ae.netlify.app/](https://671f7dd0e326c217e6a8c7f1--dazzling-malabi-c162ae.netlify.app/
+[https://dazzling-malabi-c162ae.netlify.app/](https://671f7dd0e326c217e6a8c7f1--dazzling-malabi-c162ae.netlify.app/](https://dazzling-malabi-c162ae.netlify.app/)
