@@ -2,7 +2,7 @@ export type CommentByPostId = {
     postId: number
 }
 
-export type Post = {
+export type PostEntities = {
     id: number;
     title: string;
     body: string;
@@ -16,7 +16,7 @@ export type Post = {
 }
 
 export type PostsResponse = {
-    posts: Post[];
+    posts: PostEntities[];
     total: number;
     skip: number;
     limit: number;

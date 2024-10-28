@@ -49,7 +49,7 @@ export default defineComponent({
             const isReloaded = sessionStorage.getItem('isReloaded');
             if (!isReloaded) {
                 sessionStorage.setItem('isReloaded', 'true');
-                getPosts();
+                if (!postsList.value.length) getPosts();
             }
 
             window.addEventListener('beforeunload', () => {

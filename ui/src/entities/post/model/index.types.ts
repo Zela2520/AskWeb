@@ -1,3 +1,5 @@
+import type { Ref } from "vue";
+
 export type PostId = Brand<Id, 'id'>
 
 export type PostDto = {
@@ -5,12 +7,12 @@ export type PostDto = {
     title: string;
     body: string;
     tags: string[];
-    likes: number;
-    dislikes: number;
+    likes: Ref<number>;
+    dislikes: Ref<number>;
     views: number;
     userId: number;
-    isLiked: boolean
-    isDisliked: boolean
-    toggleLike: () => void
-    toggleDislike: () => void
+    isLiked: Ref<boolean>
+    isDisliked: Ref<boolean>
+    toggleLike?: () => void
+    toggleDislike?: () => void
 }

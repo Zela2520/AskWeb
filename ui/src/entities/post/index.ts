@@ -1,4 +1,4 @@
 import Post from './ui/Post.vue';
-export * from './api';
+export { getPostsList, type PostEntities, type PostsResponse, type CommentByPostId  } from './api';
 export { usePostsStore } from './model/post.store';
 export { Post };

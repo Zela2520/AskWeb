@@ -10,19 +10,15 @@ export const useCommentsStore = defineStore('comments', () => {
   const commentsList = ref<CommentDto[]>([])
   const actualComments = ref<CommentDto[]>([])
 
-  const getActualComments = (currentCommentsList: CommentDto[]) => {
-    actualComments.value = currentCommentsList.filter((x) => !x.isDeleted)
-  }
-
   const getCommentByPostIdAsync = async (id: number) => {
     isCommentsLoading.value = true
     try {
       const { data } = await getCommentByPostId(id);
       commentsList.value = data.comments.map((x) => {
         const { isDeleted, toggleDeleted } = useGetIsDeleted()
-        return { ...mapComment(x), isDeleted, toggleDeleted }
+        return { ...mapComment(x), isDeleted: ref(isDeleted), toggleDeleted }
       })
-      getActualComments(commentsList.value)
+      actualComments.value = commentsList.value.filter((x) => !x.isDeleted)
     } catch(e) {
       console.error(e)
       commentsList.value = []
@@ -34,19 +30,19 @@ export const useCommentsStore = defineStore('comments', () => {
   const handleDeleteClick = (id: number) => {
     commentsList.value.forEach((comment) => {
       if (comment.id === id) {
-        comment.toggleDeleted();
+        comment.toggleDeleted?.();
       }
     });
-    getActualComments(commentsList.value)
+    actualComments.value = commentsList.value.filter((x) => !x.isDeleted)
   };
 
   const handleReturnClick = (id: number) => {
     commentsList.value.forEach((comment) => {
-      if (comment.id === id) {
-        comment.toggleDeleted();
+      if (comment && comment.id === id) {
+        comment.toggleDeleted?.();
       }
     });
-    getActualComments(commentsList.value)
+    actualComments.value = commentsList.value.filter((x) => !x.isDeleted)
   };
 
   const getIsDeleteById = (id: number) => {

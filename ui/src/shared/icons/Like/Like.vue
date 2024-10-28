@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, withDefaults } from 'vue';
-import { IconProps, IconColor } from '../index.types';
+import { type IconProps, IconColor } from '../index.types';
 
 const props = withDefaults(defineProps<IconProps>(), {
     color: IconColor.primary,
