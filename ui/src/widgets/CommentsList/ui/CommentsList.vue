@@ -1,12 +1,20 @@
 <template>
-    <section class="flex flex-col mt-2.5 max-w-full w-[676px] gap-y-8">
-        <div v-if="isCommentsLoading">
-            <Spinner />
-        </div>
-        <Header :comments="commentsList.length" />
+    <section class="flex flex-col mt-2.5 max-w-full w-[676px]">
         <Post v-if="!!selectPost" :id="selectPost.id" :title="selectPost.title" :body="selectPost.body"
             :likes="selectPost.likes" :dislikes="selectPost.dislikes" :tags="selectPost.tags"
             :views="selectPost.views" :canOpenPost="false" />
+        <div v-if="isCommentsLoading">
+            <Spinner />
+        </div>
+        <section data-layername="comments" class="flex flex-col" aria-label="Comments Section">
+            <Header :comments="actualComments.length" />
+            <Comment
+            v-for="comment in commentsList"
+            :id="comment.id"
+            :author="comment.username"
+            :text="comment.body"
+            />
+        </section>
     </section>
 </template>
 
@@ -29,8 +37,9 @@ export default defineComponent({
         Post,
     },
     setup() {
-        const { commentsList, handleDelete, handleReturn, getComments, isCommentsLoading } = useGetComments();
+        const { commentsList, getComments, actualComments, isCommentsLoading } = useGetComments();
         const { postsList, getPosts } = useGetPosts();
+
         const route = useRoute();
         const commentId = Number(route.params.commentId);
 
@@ -55,10 +64,9 @@ export default defineComponent({
 
         return {
             commentsList,
+            actualComments,
             selectPost,
             isCommentsLoading,
-            handleDelete,
-            handleReturn,
         };
     },
 });

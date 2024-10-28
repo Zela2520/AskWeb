@@ -8,5 +8,6 @@ export type CommentDto = {
     userId: number;
     username: string;
     fullName: string;
-    isDeleted?: boolean
+    isDeleted: boolean
+    toggleDeleted: () => void
 }

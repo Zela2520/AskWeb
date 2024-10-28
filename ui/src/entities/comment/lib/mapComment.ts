@@ -10,5 +10,6 @@ export const mapComment = (post: Comment): CommentDto => {
         userId: post.user.id,
         username: post.user.username,
         fullName: post.user.fullName,
+        isDeleted: false,
     }
 }

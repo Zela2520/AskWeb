@@ -4,7 +4,7 @@ import { useCommentsStore } from '@/entities/comment';
 
 export const useGetComments = () => {
 	const commentsStore = useCommentsStore();
-	const { commentsList, handleDelete, handleReturn, isCommentsLoading } = storeToRefs(commentsStore);
+	const { commentsList, actualComments, isCommentsLoading } = storeToRefs(commentsStore);
 
 	const getComments = async (id: number) => {
 		await commentsStore.getCommentByPostIdAsync(id);
@@ -12,9 +12,8 @@ export const useGetComments = () => {
 
 	return {
 		commentsList,
+		actualComments,
 		getComments,
 		isCommentsLoading,
-		handleDelete,
-		handleReturn,
 	};
 };
