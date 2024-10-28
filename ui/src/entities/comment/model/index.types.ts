@@ -1,3 +1,5 @@
+import type { Ref } from "vue";
+
 export type CommentId = Brand<Id, 'CommentId'>
 
 export type CommentDto = {
@@ -8,6 +10,6 @@ export type CommentDto = {
     userId: number;
     username: string;
     fullName: string;
-    isDeleted: boolean
-    toggleDeleted: () => void
+    isDeleted: Ref<boolean> | null
+    toggleDeleted?: () => void
 }

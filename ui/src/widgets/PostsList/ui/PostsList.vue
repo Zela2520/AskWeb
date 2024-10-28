@@ -31,7 +31,7 @@ export default defineComponent({
         const { postsList, getPosts, isPostLoading } = useGetPosts();
 
         onMounted(() => {
-            if (!postsList.length) getPosts()
+            if (!postsList.value.length) getPosts()
         });
 
         return {

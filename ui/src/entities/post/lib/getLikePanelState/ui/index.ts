@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import type { LikeProps, Reaction } from './index.types';
 
-export const useGetLikePanel = (props: LikeProps): Reaction => {
+export const getLikePanelState = (props: LikeProps): Reaction => {
     const { initialLikes = 0, initialDislikes = 0 } = props
 
     const isLiked = ref(false);

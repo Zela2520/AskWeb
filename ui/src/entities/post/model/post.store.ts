@@ -2,8 +2,8 @@ import type { PostDto } from './index.types';
 import { defineStore } from 'pinia';
 import { getPostsList } from '../api';
 import { ref } from 'vue';
-import { mapPost } from '../lib/mapPost';
-import { useGetLikePanel } from '@/features/useGetLikePanel';
+import { mapPost } from '../lib/mapPost/ui/mapPost';
+import { getLikePanelState } from '../lib';
 
 export const usePostsStore = defineStore('posts', () => {
   const isPostLoading = ref<boolean>(false);
@@ -15,8 +15,8 @@ export const usePostsStore = defineStore('posts', () => {
     try {
       const { data } = await getPostsList(params);
       postsList.value = data.posts?.slice(0, limit).map((x) => {
-        const { isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike } = useGetLikePanel({ initialLikes: x.reactions.likes, initialDislikes: x.reactions.dislikes });
-        return { ...mapPost(x), isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike };
+        const { isLiked, isDisliked, likes, dislikes, toggleLike, toggleDislike } = getLikePanelState({ initialLikes: x.reactions.likes, initialDislikes: x.reactions.dislikes });
+        return { ...mapPost(x), isLiked: isLiked, isDisliked: isDisliked, likes: likes, dislikes: dislikes, toggleLike, toggleDislike };
       }) || [];
     } catch (e) {
       console.error(e);
@@ -29,7 +29,7 @@ export const usePostsStore = defineStore('posts', () => {
   const handleLikeClick = (id: number) => {
     postsList.value.forEach((post) => {
       if (post.id === id) {
-        post.toggleLike();
+        post.toggleLike?.();
       }
     });
   };
@@ -37,7 +37,7 @@ export const usePostsStore = defineStore('posts', () => {
   const handleDislikeClick = (id: number) => {
     postsList.value.forEach((post) => {
       if (post.id === id) {
-        post.toggleDislike();
+        post.toggleDislike?.();
       }
     });
   };

@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClass" @click="onClick" :aria-label="props.ariaLabel">
+  <button :class="buttonClass" @click="onClick" aria-label="button">
       <span class="flex gap-1 items-center">
           <img :src="props.icon" :alt="props.iconAlt" class="object-contain w-[13px] aspect-[1.18]" />
           <span>{{ props.label }}</span>
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
-import { ButtonProps } from './index.types';
+import type { ButtonProps } from './index.types';
 
 const props = defineProps<ButtonProps>();
 

@@ -61,8 +61,7 @@
 
 <script setup lang="ts">
 import { defineProps, withDefaults, computed, ref } from 'vue';
-import { PostProps } from './index.types';
-import { useGetLikePanel } from '../hooks'
+import type { PostProps } from './index.types';
 import { useRouter, useRoute } from 'vue-router';
 import { usePostsStore } from '../model/post.store'
 import { storeToRefs } from 'pinia';

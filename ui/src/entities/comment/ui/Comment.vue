@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CommentProps } from './index.types'
+import type { CommentProps } from './index.types'
 import { useCommentsStore } from '../model/comment.store'
 import { computed } from 'vue'
 
@@ -18,7 +18,7 @@ const handleReturnClick = () => {
 </script>
 
 <template>
-    <article :id="id" class="flex gap-2 items-start mt-6 max-md:max-w-full">
+    <article :id="String(id)" class="flex gap-2 items-start mt-6 max-md:max-w-full">
         <img src="/src/shared/images/myAva.png" alt="User avatar" data-layername="image" class="flex shrink-0 rounded-full border-dashed border-[5px] border-gray-950 h-[46px] w-[46px]" />
         <div data-layername="content" class="flex flex-col min-w-[240px] w-[624px] max-md:max-w-full">
           <div data-layername="autorAndComment" class="flex flex-col w-full text-xl tracking-tighter leading-none max-md:max-w-full">
@@ -37,7 +37,7 @@ const handleReturnClick = () => {
               <button 
                 data-layername="link" 
                 class="flex flex-col text-orange-500 whitespace-nowrap w-[57px]"
-                @click="handleReturnClick(id)"
+                @click="handleReturnClick"
                 aria-label="Return deleted comment"
               >
                 <span>Return</span>
@@ -52,7 +52,7 @@ const handleReturnClick = () => {
             <button 
               data-layername="linkCaption" 
               class="flex flex-col w-10 text-sm leading-none text-red-500"
-              @click="handleDeleteClick(id)"
+              @click="handleDeleteClick"
               aria-label="Delete comment"
             >
               <span>Delete</span>

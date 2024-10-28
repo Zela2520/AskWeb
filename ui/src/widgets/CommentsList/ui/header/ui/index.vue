@@ -6,7 +6,7 @@
   
   <script setup lang="ts">
   import { defineProps } from 'vue';
-  import { HeaderProps } from './index.types';
+  import type { HeaderProps } from './index.types';
   
   const props = defineProps<HeaderProps>();
   </script>

@@ -1,2 +1,2 @@
 export { getPostsList } from './ui';
-export type { Post, PostsResponse, CommentByPostId } from './ui/index.types'
+export type { PostEntities, PostsResponse, CommentByPostId } from './ui/index.types'
