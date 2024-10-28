@@ -27,3 +27,6 @@
 - cd ui && npm i
 - npm run dev
 - запуск проекта произойдет на: http://localhost:3000
+
+## Deploy (только desktop)
+https://dazzling-malabi-c162ae.netlify.app/
