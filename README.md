@@ -1,4 +1,4 @@
-# Sasflix Test
+# Sasflix
 
 ## Описание проекта
 
