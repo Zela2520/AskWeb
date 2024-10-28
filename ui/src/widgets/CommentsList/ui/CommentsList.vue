@@ -59,7 +59,7 @@ export default defineComponent({
 
         onMounted(() => {
             checkReload();
-            if (!commentsList.value.length) getComments(commentId);
+            getComments(commentId);
         });
 
         return {
